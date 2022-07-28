@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "83369585720",
+    "project_id": "gigapetuser",
+    "storage_bucket": "gigapetuser.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:83369585720:android:3a3bbdf34d7d9ab1a6cacd",
+        "android_client_info": {
+          "package_name": "com.example.gigapet_prj"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "83369585720-9f9jbg21fua8qeg8cnldpllaop74hplm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAOott8MIhSdzA0mDC4TkwZjgxyCf-5wkY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "83369585720-9f9jbg21fua8qeg8cnldpllaop74hplm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
