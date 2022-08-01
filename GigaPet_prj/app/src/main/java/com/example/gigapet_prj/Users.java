@@ -6,6 +6,12 @@ public class Users {
     private String email;
     private String phoneNo;
     private String password;
+
+    public Users( String email, String password) {
+        this.email = email;
+        this.password = password;
+    }
+
     private Boolean adminStatus;
 
     public Users() {

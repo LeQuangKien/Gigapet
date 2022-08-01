@@ -21,16 +21,16 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.regex.Pattern;
 
-public class Login extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity {
     EditText uEmail, uPassword;
     Button btnLogin;
     ProgressBar progressBar;
     private TextView register;
     private DatabaseReference reff;
-
-
+    private TextView forgotpass;
 
     public static final Pattern EMAIL_ADDRESS_PATTERN = Pattern.compile(
             "[a-zA-Z0-9\\+\\.\\_\\%\\-\\+]{1,256}" +
@@ -54,14 +54,15 @@ public class Login extends AppCompatActivity {
         register = findViewById(R.id.textRegister);
         Users users = new Users();
 
-        reff = FirebaseDatabase.getInstance().getReference().child("User");
-
+        reff = FirebaseDatabase.getInstance().getReference();
+//        uEmail.setText("tuan@gmail.com");
+//        uPassword.setText("1234");
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
 
-                String email = uEmail.getText().toString();
+                String email = uEmail.getText().toString().trim();
                 String password = uPassword.getText().toString();
 
                 if (TextUtils.isEmpty(email)) {
@@ -76,17 +77,22 @@ public class Login extends AppCompatActivity {
                     uPassword.requestFocus();
                 }
 
-                reff.child(email).addValueEventListener(new ValueEventListener() {
+                reff.child("User").addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        ArrayList<String> names= new ArrayList<>();
                         for (DataSnapshot userSnapshot : snapshot.getChildren()) {
-                            Users users = snapshot.getValue(Users.class);
-                            if (snapshot.hasChild(email) && snapshot.child(email).child("password").getValue(String.class).equals(password)){
-                                Toast.makeText(Login.this, "Login Succesfull", Toast.LENGTH_LONG).show();
-                                startActivity(new Intent(Login.this,MainActivity.class));
+                            Users user = userSnapshot.getValue(Users.class);
+                            Boolean isEqualEmail = user.getEmail().trim().toLowerCase().equals(email.toLowerCase());
+                            Boolean isEqualPassword = user.getPassword().equals(password);
+                            if (isEqualEmail && isEqualPassword){
+                                Toast.makeText(LoginActivity.this, "Login Succesfull", Toast.LENGTH_LONG).show();
+                                startActivity(new Intent(LoginActivity.this,MainActivity.class));
+                                finish();
                             } else {
-                                Toast.makeText(Login.this, "Invalid Username or Password", Toast.LENGTH_LONG).show();
+                                Toast.makeText(LoginActivity.this, "Invalid Username or Password", Toast.LENGTH_LONG).show();
                             }
+
                         }
                     }
 
@@ -104,7 +110,14 @@ public class Login extends AppCompatActivity {
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(Login.this, Register.class));
+                startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
+            }
+        });
+
+        forgotpass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(LoginActivity.this, SendCodeActivity.class));
             }
         });
     }
